@@ -26,7 +26,7 @@ var chatServer = require('./lib/chat_server');
 chatServer.listen(server);
 
 function send404(response) {
-  response.writeHead(404, {'Content-Type': 'text/plain'});
+  response.writeHead(404, {'content-type': 'text/plain'});
   response.write('Error 404: resource not found.');
   response.end();
 }
@@ -34,7 +34,7 @@ function send404(response) {
 function sendFile(response, filePath, fileContents) {
   response.writeHead(
     200,
-    {'Content-Type': mime.lookup(path.basename(filePath))}
+    {'content-type': mime.lookup(path.basename(filePath))}
   );
   response.end(fileContents);
 }
