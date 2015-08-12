@@ -4,6 +4,19 @@ var path = require('path');
 var mime = require('mime');
 var cache = {};
 
+var server = http.createServer(function(request, response) {
+  var filePath = false;
+
+  if (request.url == '/') {
+    filePath = 'public/index.html';
+  } else {
+    filePath = 'public' + request.url;
+  }
+
+  var absPath = './' + filePath;
+  serveStatic(response, cache, absPath);
+});
+
 function send404(response) {
   response.writeHead(404, {'Content-Type': 'text/plain'});
   response.write('Error 404: resource not found.');
