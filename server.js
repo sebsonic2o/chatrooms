@@ -17,6 +17,10 @@ var server = http.createServer(function(request, response) {
   serveStatic(response, cache, absPath);
 });
 
+server.listen(3000, function() {
+  console.log('Server listening on port 3000.');
+});
+
 function send404(response) {
   response.writeHead(404, {'Content-Type': 'text/plain'});
   response.write('Error 404: resource not found.');
