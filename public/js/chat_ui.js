@@ -16,8 +16,8 @@ $(document).ready(function() {
   });
 
   socket.on('joinResult', function(result) {
-    $('#rooms').text(result.room);
-    $('#messages').append(divSystemContentElement('Room changed.'));
+    $('#room').text(result.room);
+    $('#messages').append(divSystemContentElement('Room changed to ' + result.room + '.'));
   });
 
   socket.on('message', function(message) {
@@ -25,7 +25,7 @@ $(document).ready(function() {
   });
 
   socket.on('rooms', function(rooms) {
-    $('room-list').empty();
+    $('#room-list').empty();
 
     for(var room in rooms) {
       room = room.substring(1, room.length);
@@ -33,6 +33,11 @@ $(document).ready(function() {
         $('#room-list').append(divEscapedContentElement(room));
       }
     }
+
+    $('#room-list div').click(function() {
+      chatApp.processCommand('/join ' + $(this).text());
+      $('#send-message').focus();
+    });
   });
 
   setInterval(function() {
@@ -45,7 +50,6 @@ $(document).ready(function() {
     processUserInput(chatApp, socket);
     return false;
   });
-
 });
 
 function processUserInput(chatApp, socket) {
@@ -67,9 +71,9 @@ function processUserInput(chatApp, socket) {
 }
 
 function divEscapedContentElement(message) {
-  return $(<div></div>).text(message);
+  return $('<div></div>').text(message);
 }
 
 function divSystemContentElement(message) {
-  return $(<div></div>).html('<i>' + message + '</i>');
+  return $('<div></div>').html('<i>' + message + '</i>');
 }
